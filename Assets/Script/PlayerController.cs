@@ -2,20 +2,36 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     [Header("Movement")]
-    public float moveSpeed = 5f;
-    public float jumpForce = 7f;
+    public float moveSpeed;
+    public float jumpForce;
 
-    [Header("Player Setting")]
-    public bool isPlayer1 = true;
+    [Header("Ability")]
+    public bool canPush = false; // 밀기 가능 여부
 
     private Rigidbody2D rb;
     private bool isGrounded;
+    private bool isPlayer1; // Bobi = true / Rio = false
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+
+        // 태그 기반 자동 설정
+        if (CompareTag("Bobi"))
+        {
+            isPlayer1 = true;
+            moveSpeed = 4f;
+            jumpForce = 6f;
+            canPush = true; // ⭐ Bobi만 밀기 가능
+        }
+        else if (CompareTag("Rio"))
+        {
+            isPlayer1 = false;
+            moveSpeed = 7f;
+            jumpForce = 10f;
+            canPush = false;
+        }
     }
 
     void Update()
@@ -28,15 +44,17 @@ public class PlayerController : MonoBehaviour
     {
         float moveInput = 0f;
 
-        if (isPlayer1)
+        if (CompareTag("Bobi"))
         {
-            // WASD
-            moveInput = Input.GetAxisRaw("Horizontal"); // A, D
+            // 방향키 (Bobi)
+            if (Input.GetKey(KeyCode.LeftArrow)) moveInput -= 1f;
+            if (Input.GetKey(KeyCode.RightArrow)) moveInput += 1f;
         }
         else
         {
-            // 방향키
-            moveInput = Input.GetAxisRaw("Horizontal2"); 
+            // WASD (Rio)
+            if (Input.GetKey(KeyCode.A)) moveInput -= 1f;
+            if (Input.GetKey(KeyCode.D)) moveInput += 1f;
         }
 
         rb.linearVelocity = new Vector2(moveInput * moveSpeed, rb.linearVelocity.y);
@@ -44,18 +62,40 @@ public class PlayerController : MonoBehaviour
 
     void Jump()
     {
-        if (isPlayer1)
+        if (!isGrounded) return;
+
+        if (CompareTag("Rio"))
         {
-            if (Input.GetKeyDown(KeyCode.W) && isGrounded)
+            if (Input.GetKeyDown(KeyCode.UpArrow))
             {
                 rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
             }
         }
         else
         {
-            if (Input.GetKeyDown(KeyCode.UpArrow) && isGrounded)
+            if (Input.GetKeyDown(KeyCode.W))
             {
                 rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
+            }
+        }
+    }
+
+    // ⭐ 밀기 기능 (나중에 확장용)
+    private void OnCollisionStay2D(Collision2D collision)
+    {
+        if (!canPush) return;
+
+        if (collision.gameObject.CompareTag("Pushable"))
+        {
+            Rigidbody2D otherRb = collision.gameObject.GetComponent<Rigidbody2D>();
+
+            if (otherRb != null)
+            {
+                float moveInput = isPlayer1 ?
+                    (Input.GetKey(KeyCode.A) ? -1f : Input.GetKey(KeyCode.D) ? 1f : 0f) :
+                    (Input.GetKey(KeyCode.LeftArrow) ? -1f : Input.GetKey(KeyCode.RightArrow) ? 1f : 0f);
+
+                otherRb.linearVelocity = new Vector2(moveInput * moveSpeed, otherRb.linearVelocity.y);
             }
         }
     }
@@ -63,16 +103,12 @@ public class PlayerController : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Ground"))
-        {
             isGrounded = true;
-        }
     }
 
     private void OnCollisionExit2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Ground"))
-        {
             isGrounded = false;
-        }
     }
 }
