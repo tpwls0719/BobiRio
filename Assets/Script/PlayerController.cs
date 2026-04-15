@@ -18,20 +18,16 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
 
         // 태그 기반 자동 설정
-        /*if (CompareTag("Bobi"))
+        if (CompareTag("Bobi"))
         {
             isPlayer1 = true;
-            moveSpeed = 4f;
-            jumpForce = 6f;
             canPush = true; // ⭐ Bobi만 밀기 가능
         }
         else if (CompareTag("Rio"))
         {
             isPlayer1 = false;
-            moveSpeed = 7f;
-            jumpForce = 10f;
             canPush = false;
-        }*/
+        }
     }
 
     void Update()
@@ -104,6 +100,22 @@ public class PlayerController : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Ground"))
             isGrounded = true;
+        
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Obstacle"))
+        {
+            Die();
+        }
+    }
+
+    void Die()
+    {
+        Debug.Log("사망!");
+
+        FindObjectOfType<GameManager>().RespawnPlayers();
     }
 
     private void OnCollisionExit2D(Collision2D collision)

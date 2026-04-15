@@ -8,6 +8,8 @@ TagManager:
   - Rio
   - Pushable
   - Ground
+  - BackGround
+  - Obstacle
   layers:
   - Default
   - TransparentFX
