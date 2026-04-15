@@ -18,7 +18,7 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
 
         // 태그 기반 자동 설정
-        if (CompareTag("Bobi"))
+        /*if (CompareTag("Bobi"))
         {
             isPlayer1 = true;
             moveSpeed = 4f;
@@ -31,7 +31,7 @@ public class PlayerController : MonoBehaviour
             moveSpeed = 7f;
             jumpForce = 10f;
             canPush = false;
-        }
+        }*/
     }
 
     void Update()
@@ -64,7 +64,7 @@ public class PlayerController : MonoBehaviour
     {
         if (!isGrounded) return;
 
-        if (CompareTag("Rio"))
+        if (CompareTag("Bobi"))
         {
             if (Input.GetKeyDown(KeyCode.UpArrow))
             {
