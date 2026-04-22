@@ -7,27 +7,35 @@ public class PlayerController : MonoBehaviour
     public float jumpForce;
 
     [Header("Ability")]
-    public bool canPush = false; // 밀기 가능 여부
+    public bool canPush = false;
 
     private Rigidbody2D rb;
     private bool isGrounded;
-    private bool isPlayer1; // Bobi = true / Rio = false
+    private bool isPlayer1;
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
 
-        // 태그 기반 자동 설정
+        // =========================
+        // 플레이어 설정
+        // =========================
         if (CompareTag("Bobi"))
         {
             isPlayer1 = true;
-            canPush = true; // ⭐ Bobi만 밀기 가능
+            canPush = true;
         }
         else if (CompareTag("Rio"))
         {
             isPlayer1 = false;
             canPush = false;
         }
+
+        // ❌ 이거 제거해야 함 (중요)
+        // Physics2D.IgnoreLayerCollision(...)
+
+        // ✔ 대신: 플레이어끼리 "붙는 문제"는 마찰로 해결
+        // (Unity에서 Physics Material 2D 적용해야 함)
     }
 
     void Update()
@@ -42,13 +50,11 @@ public class PlayerController : MonoBehaviour
 
         if (CompareTag("Bobi"))
         {
-            // 방향키 (Bobi)
             if (Input.GetKey(KeyCode.LeftArrow)) moveInput -= 1f;
             if (Input.GetKey(KeyCode.RightArrow)) moveInput += 1f;
         }
         else
         {
-            // WASD (Rio)
             if (Input.GetKey(KeyCode.A)) moveInput -= 1f;
             if (Input.GetKey(KeyCode.D)) moveInput += 1f;
         }
@@ -76,12 +82,20 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    // ⭐ 밀기 기능 (나중에 확장용)
+    // =========================
+    // 바닥 판정 (Ground + Player 포함)
+    // =========================
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        CheckGround(collision);
+    }
+
     private void OnCollisionStay2D(Collision2D collision)
     {
-        if (!canPush) return;
+        CheckGround(collision);
 
-        if (collision.gameObject.CompareTag("Pushable"))
+        // 밀기 기능
+        if (canPush && collision.gameObject.CompareTag("Pushable"))
         {
             Rigidbody2D otherRb = collision.gameObject.GetComponent<Rigidbody2D>();
 
@@ -96,11 +110,33 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void OnCollisionExit2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Ground"))
-            isGrounded = true;
-        
+        if (collision.gameObject.CompareTag("Ground") ||
+            collision.gameObject.CompareTag("Pushable") ||
+            collision.gameObject.CompareTag("Bobi") ||
+            collision.gameObject.CompareTag("Rio"))
+        {
+            isGrounded = false;
+        }
+    }
+
+    void CheckGround(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Ground") ||
+            collision.gameObject.CompareTag("Pushable") ||
+            collision.gameObject.CompareTag("Bobi") ||
+            collision.gameObject.CompareTag("Rio")) // ⭐ 핵심 추가
+        {
+            foreach (ContactPoint2D contact in collision.contacts)
+            {
+                if (contact.normal.y > 0.5f)
+                {
+                    isGrounded = true;
+                    return;
+                }
+            }
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -114,13 +150,6 @@ public class PlayerController : MonoBehaviour
     void Die()
     {
         Debug.Log("사망!");
-
         FindObjectOfType<GameManager>().RespawnPlayers();
-    }
-
-    private void OnCollisionExit2D(Collision2D collision)
-    {
-        if (collision.gameObject.CompareTag("Ground"))
-            isGrounded = false;
     }
 }
