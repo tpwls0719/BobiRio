@@ -11,6 +11,7 @@ TagManager:
   - BackGround
   - Obstacle
   - Button
+  - Key
   layers:
   - Default
   - TransparentFX
