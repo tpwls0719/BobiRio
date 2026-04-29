@@ -3023,7 +3023,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d33f48b99b9c43f47bbe19d327d9cd68, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
-  player1: {fileID: 1882494876}
+  player1: {fileID: 2055675636}
   player2: {fileID: 136514221}
 --- !u!4 &644539876
 Transform:

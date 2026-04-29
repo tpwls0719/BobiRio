@@ -12,6 +12,7 @@ TagManager:
   - Obstacle
   - Button
   - Key
+  - Wall
   layers:
   - Default
   - TransparentFX
