@@ -8,8 +8,8 @@ public class Key : MonoBehaviour
         {
             FindObjectOfType<GameManager>().GetKey();
 
-            // 키 사라지게
-            Destroy(gameObject);
+            // 삭제 대신 비활성화
+            gameObject.SetActive(false);
         }
     }
 }

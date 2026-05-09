@@ -8,8 +8,13 @@ public class GameManager : MonoBehaviour
     private Vector3 p1StartPos;
     private Vector3 p2StartPos;
 
-    // ⭐ 추가
-    private bool hasKey = false;
+    [Header("필요한 열쇠 개수")]
+    public int totalKeys = 3;
+
+    [Header("맵의 모든 열쇠")]
+    public GameObject[] keys;
+
+    private int currentKeys = 0;
 
     void Start()
     {
@@ -17,28 +22,42 @@ public class GameManager : MonoBehaviour
         p2StartPos = player2.position;
     }
 
-    // ⭐ 키 획득
     public void GetKey()
     {
-        hasKey = true;
-        Debug.Log("열쇠 획득!");
+        currentKeys++;
+
+        Debug.Log("열쇠 획득! (" + currentKeys + "/" + totalKeys + ")");
     }
 
-    // ⭐ 클리어 가능 여부
-    public bool HasKey()
+    public bool HasAllKeys()
     {
-        return hasKey;
+        return currentKeys >= totalKeys;
+    }
+
+    public int GetCurrentKeys()
+    {
+        return currentKeys;
     }
 
     public void RespawnPlayers()
     {
+        // 플레이어 위치 초기화
         player1.position = p1StartPos;
         player2.position = p2StartPos;
 
+        // 속도 초기화
         player1.GetComponent<Rigidbody2D>().linearVelocity = Vector2.zero;
         player2.GetComponent<Rigidbody2D>().linearVelocity = Vector2.zero;
 
-        // ⭐ 죽으면 키 초기화 (선택)
-        hasKey = false;
+        // 열쇠 개수 초기화
+        currentKeys = 0;
+
+        // 모든 열쇠 다시 활성화
+        foreach (GameObject key in keys)
+        {
+            key.SetActive(true);
+        }
+
+        Debug.Log("리스폰 완료");
     }
 }

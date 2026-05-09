@@ -32,19 +32,42 @@ public class CameraController : MonoBehaviour
     }
 
     IEnumerator Start()
+{
+    Bounds bounds = background.bounds;
+
+    // 🔥 배경 가로 크기에 카메라 맞추기
+    cam.orthographicSize = bounds.size.x / (2f * cam.aspect);
+
+    float camHalfHeight = cam.orthographicSize;
+
+    // X는 배경 중앙
+    float centerX = bounds.center.x;
+
+    // 🔥 카메라가 배경 안에 있도록 계산
+    float topY = bounds.max.y - camHalfHeight;
+    float bottomY = bounds.min.y + camHalfHeight;
+
+    // 맨 위에서 시작
+    transform.position = new Vector3(centerX, topY, transform.position.z);
+
+    float timer = 0f;
+
+    // 🔥 위 → 아래 이동
+    while (timer < startDelay)
     {
-        if (stageCenter != null)
-        {
-            transform.position = new Vector3(stageCenter.position.x, stageCenter.position.y, transform.position.z);
-        }
+        timer += Time.deltaTime;
 
-        cam.orthographicSize = startZoom;
+        float t = timer / startDelay;
 
-        yield return new WaitForSeconds(startDelay);
+        float y = Mathf.Lerp(topY, bottomY, t);
 
-        isStarting = false;
+        transform.position = new Vector3(centerX, y, transform.position.z);
+
+        yield return null;
     }
 
+    isStarting = false;
+}
     void LateUpdate()
     {
         if (player1 == null || player2 == null || background == null) return;

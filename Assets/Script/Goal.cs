@@ -35,14 +35,14 @@ public class Goal : MonoBehaviour
     {
         GameManager gm = FindObjectOfType<GameManager>();
 
-        if (p1In && p2In && gm.HasKey())
+        if (p1In && p2In && gm.HasAllKeys())
         {
             Debug.Log("클리어!");
-            // 👉 여기서 씬 이동, UI 표시 등 가능
+            // 씬 이동, UI 표시 등
         }
-        else if(!gm.HasKey())
+        else if (!gm.HasAllKeys())
         {
-            Debug.Log("열쇠를 가지고 오세요!");
+            Debug.Log("열쇠를 모두 모으세요!");
         }
     }
 }
