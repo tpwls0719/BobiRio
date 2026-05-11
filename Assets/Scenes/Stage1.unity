@@ -3025,6 +3025,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
   player1: {fileID: 2055675636}
   player2: {fileID: 136514221}
+  totalKeys: 3
+  keys:
+  - {fileID: 1925093427}
 --- !u!4 &644539876
 Transform:
   m_ObjectHideFlags: 0
