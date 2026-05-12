@@ -198,6 +198,19 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    public bool IsGravityDown()
+    {
+        return gravityDown;
+    }
+
+    public void ResetState()
+    {
+        gravityDown = true;
+        transform.rotation = Quaternion.identity;
+
+        isGrounded = false;
+    }
+
     void Die()
     {
         Debug.Log("사망!");

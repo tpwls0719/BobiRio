@@ -16,10 +16,13 @@ public class GameManager : MonoBehaviour
 
     private int currentKeys = 0;
 
+
+
     void Start()
     {
         p1StartPos = player1.position;
         p2StartPos = player2.position;
+
     }
 
     public void GetKey()
@@ -41,7 +44,7 @@ public class GameManager : MonoBehaviour
 
     public void RespawnPlayers()
     {
-        // 플레이어 위치 초기화
+        // 위치 초기화
         player1.position = p1StartPos;
         player2.position = p2StartPos;
 
@@ -49,10 +52,13 @@ public class GameManager : MonoBehaviour
         player1.GetComponent<Rigidbody2D>().linearVelocity = Vector2.zero;
         player2.GetComponent<Rigidbody2D>().linearVelocity = Vector2.zero;
 
-        // 열쇠 개수 초기화
+        // 중력 상태 초기화 ⭐
+        player1.GetComponent<PlayerController>().ResetState();
+        player2.GetComponent<PlayerController>().ResetState();
+
+        // 열쇠 초기화
         currentKeys = 0;
 
-        // 모든 열쇠 다시 활성화
         foreach (GameObject key in keys)
         {
             key.SetActive(true);

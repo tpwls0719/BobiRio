@@ -29,32 +29,34 @@ public class FallingPlatform : MonoBehaviour
     {
         if (isTriggered) return;
 
-        if (collision.gameObject.CompareTag("Bobi") ||
-            collision.gameObject.CompareTag("Rio"))
+        PlayerController player = collision.gameObject.GetComponent<PlayerController>();
+
+        if (player != null)
         {
-            StartCoroutine(Fall());
+            StartCoroutine(Fall(player));
         }
     }
 
-    IEnumerator Fall()
+    IEnumerator Fall(PlayerController player)
     {
         isTriggered = true;
 
         yield return new WaitForSeconds(fallDelay);
 
-        // 떨어지기
         rb.bodyType = RigidbodyType2D.Dynamic;
+
+        // 🔥 플레이어 중력 방향 적용
+        rb.gravityScale = player.IsGravityDown() ? 1f : -1f;
 
         yield return new WaitForSeconds(respawnTime);
 
-        // ⭐ 완전 초기화
         rb.linearVelocity = Vector2.zero;
         rb.angularVelocity = 0f;
 
         rb.bodyType = RigidbodyType2D.Kinematic;
 
         transform.position = startPos;
-        transform.rotation = startRot; // ⭐ 회전 복구
+        transform.rotation = startRot;
 
         isTriggered = false;
     }
