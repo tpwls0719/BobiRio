@@ -25,12 +25,12 @@ public class GameManager : MonoBehaviour
 
     }
 
-    public void GetKey()
-    {
-        currentKeys++;
+    public void GetKey(string playerTag)
+{
+    currentKeys++;
 
-        Debug.Log("열쇠 획득! (" + currentKeys + "/" + totalKeys + ")");
-    }
+    Debug.Log(playerTag + " 가 열쇠 획득! (" + currentKeys + "/" + totalKeys + ")");
+}
 
     public bool HasAllKeys()
     {
