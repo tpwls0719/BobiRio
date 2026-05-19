@@ -6,11 +6,17 @@ public class ButtonTrigger : MonoBehaviour
 
     void Start()
     {
-        pathAnimator.SetBool("isPressed", false);
+        if (pathAnimator != null)
+        {
+            pathAnimator.SetBool("isPressed", false);
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        if (pathAnimator == null)
+            return;
+
         if (collision.CompareTag("Bobi") || collision.CompareTag("Rio"))
         {
             pathAnimator.SetBool("isPressed", true);
@@ -19,6 +25,9 @@ public class ButtonTrigger : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D collision)
     {
+        if (pathAnimator == null)
+            return;
+
         if (collision.CompareTag("Bobi") || collision.CompareTag("Rio"))
         {
             pathAnimator.SetBool("isPressed", false);
