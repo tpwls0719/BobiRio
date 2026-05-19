@@ -101,7 +101,24 @@ public class PlayerController : MonoBehaviour
     {
         CheckGround(collision);
 
-        if (!collision.gameObject.CompareTag("Pushable")) return;
+        if (!collision.gameObject.CompareTag("Pushable"))
+    return;
+
+// 🔥 옆에서 닿았을 때만 밀기 가능
+bool sideContact = false;
+
+foreach (ContactPoint2D contact in collision.contacts)
+{
+    // 좌우 충돌 체크
+    if (Mathf.Abs(contact.normal.x) > 0.5f)
+    {
+        sideContact = true;
+        break;
+    }
+}
+
+if (!sideContact)
+    return;
 
         Rigidbody2D otherRb = collision.gameObject.GetComponent<Rigidbody2D>();
         if (otherRb == null) return;

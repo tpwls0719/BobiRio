@@ -16,22 +16,25 @@ public class GameManager : MonoBehaviour
 
     private int currentKeys = 0;
 
-
+    // 골 상태
+    private bool p1Goal = false;
+    private bool p2Goal = false;
 
     void Start()
     {
         p1StartPos = player1.position;
         p2StartPos = player2.position;
-
     }
 
+    // 열쇠 획득
     public void GetKey(string playerTag)
-{
-    currentKeys++;
+    {
+        currentKeys++;
 
-    Debug.Log(playerTag + " 가 열쇠 획득! (" + currentKeys + "/" + totalKeys + ")");
-}
+        Debug.Log(playerTag + " 가 열쇠 획득! (" + currentKeys + "/" + totalKeys + ")");
+    }
 
+    // 열쇠 전부 모았는지
     public bool HasAllKeys()
     {
         return currentKeys >= totalKeys;
@@ -42,6 +45,40 @@ public class GameManager : MonoBehaviour
         return currentKeys;
     }
 
+    // 골 상태 업데이트
+    public void SetGoalState(string playerTag, bool isInside)
+    {
+        if (playerTag == "Bobi")
+        {
+            p1Goal = isInside;
+        }
+        else if (playerTag == "Rio")
+        {
+            p2Goal = isInside;
+        }
+
+        CheckClear();
+    }
+
+    // 클리어 확인
+    void CheckClear()
+    {
+        if (!HasAllKeys())
+        {
+            Debug.Log("열쇠를 모두 모으세요!");
+            return;
+        }
+
+        if (p1Goal && p2Goal)
+        {
+            Debug.Log("스테이지 클리어!");
+
+            // 다음 스테이지 이동
+            // SceneManager.LoadScene("NextStage");
+        }
+    }
+
+    // 리스폰
     public void RespawnPlayers()
     {
         // 위치 초기화
@@ -52,7 +89,7 @@ public class GameManager : MonoBehaviour
         player1.GetComponent<Rigidbody2D>().linearVelocity = Vector2.zero;
         player2.GetComponent<Rigidbody2D>().linearVelocity = Vector2.zero;
 
-        // 중력 상태 초기화 ⭐
+        // 상태 초기화
         player1.GetComponent<PlayerController>().ResetState();
         player2.GetComponent<PlayerController>().ResetState();
 
@@ -63,6 +100,10 @@ public class GameManager : MonoBehaviour
         {
             key.SetActive(true);
         }
+
+        // 골 상태 초기화
+        p1Goal = false;
+        p2Goal = false;
 
         Debug.Log("리스폰 완료");
     }

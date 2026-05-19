@@ -2,47 +2,53 @@ using UnityEngine;
 
 public class Goal : MonoBehaviour
 {
-    private bool p1In = false;
-    private bool p2In = false;
+    [Header("전용 골 여부")]
+    public bool useSpecificPlayer = false;
+
+    [Header("들어올 수 있는 플레이어")]
+    public string allowedTag; // Bobi 또는 Rio
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("Bobi"))
+        // 공용 골
+        if (!useSpecificPlayer)
         {
-            p1In = true;
+            if (collision.CompareTag("Bobi") || collision.CompareTag("Rio"))
+            {
+                FindObjectOfType<GameManager>()
+                    .SetGoalState(collision.tag, true);
+            }
         }
-        else if (collision.CompareTag("Rio"))
+        // 전용 골
+        else
         {
-            p2In = true;
+            if (collision.CompareTag(allowedTag))
+            {
+                FindObjectOfType<GameManager>()
+                    .SetGoalState(collision.tag, true);
+            }
         }
-
-        CheckClear();
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.CompareTag("Bobi"))
+        // 공용 골
+        if (!useSpecificPlayer)
         {
-            p1In = false;
+            if (collision.CompareTag("Bobi") || collision.CompareTag("Rio"))
+            {
+                FindObjectOfType<GameManager>()
+                    .SetGoalState(collision.tag, false);
+            }
         }
-        else if (collision.CompareTag("Rio"))
+        // 전용 골
+        else
         {
-            p2In = false;
-        }
-    }
-
-    void CheckClear()
-    {
-        GameManager gm = FindObjectOfType<GameManager>();
-
-        if (p1In && p2In && gm.HasAllKeys())
-        {
-            Debug.Log("클리어!");
-            // 씬 이동, UI 표시 등
-        }
-        else if (!gm.HasAllKeys())
-        {
-            Debug.Log("열쇠를 모두 모으세요!");
+            if (collision.CompareTag(allowedTag))
+            {
+                FindObjectOfType<GameManager>()
+                    .SetGoalState(collision.tag, false);
+            }
         }
     }
 }
