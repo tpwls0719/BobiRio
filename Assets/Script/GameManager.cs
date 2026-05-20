@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+    [Header("플레이어")]
     public Transform player1;
     public Transform player2;
 
@@ -14,6 +15,9 @@ public class GameManager : MonoBehaviour
     [Header("맵의 모든 열쇠")]
     public GameObject[] keys;
 
+    [Header("UI")]
+    public UIManager uiManager;
+
     private int currentKeys = 0;
 
     // 골 상태
@@ -21,10 +25,13 @@ public class GameManager : MonoBehaviour
     private bool p2Goal = false;
 
     void Start()
-    {
-        p1StartPos = player1.position;
-        p2StartPos = player2.position;
-    }
+{
+    p1StartPos = player1.position;
+    p2StartPos = player2.position;
+
+    // 열쇠 개수 자동 설정
+    totalKeys = keys.Length;
+}
 
     // 열쇠 획득
     public void GetKey(string playerTag)
@@ -63,18 +70,20 @@ public class GameManager : MonoBehaviour
     // 클리어 확인
     void CheckClear()
     {
+        // 열쇠 부족
         if (!HasAllKeys())
         {
             Debug.Log("열쇠를 모두 모으세요!");
             return;
         }
 
+        // 두 플레이어 모두 골 도착
         if (p1Goal && p2Goal)
         {
             Debug.Log("스테이지 클리어!");
 
-            // 다음 스테이지 이동
-            // SceneManager.LoadScene("NextStage");
+            // 클리어 UI 열기
+            uiManager.OpenClearMenu();
         }
     }
 
