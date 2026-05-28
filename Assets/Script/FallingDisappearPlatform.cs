@@ -1,8 +1,11 @@
 using UnityEngine;
 using System.Collections;
 
-public class FallingRespawnPlatform : MonoBehaviour
+public class FallingDisappearPlatform : MonoBehaviour
 {
+    [Header("Moving Platform")]
+    public bool stopMovingPlatform = true;
+
     [Header("Settings")]
     public float fallDelay = 0.2f;
     public float respawnTime = 2f;
