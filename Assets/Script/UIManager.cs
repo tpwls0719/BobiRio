@@ -59,8 +59,17 @@ public class UIManager : MonoBehaviour
     {
         SaveStageClear();
 
-        clearPanel.SetActive(true);
+        int currentStage = SceneManager.GetActiveScene().buildIndex;
 
+        // Stage5 (인덱스 6) 클리어
+        if (currentStage == 6)
+        {
+            Time.timeScale = 1f;
+            SceneManager.LoadScene("GameClear");
+            return;
+        }
+
+        clearPanel.SetActive(true);
         Time.timeScale = 0f;
     }
 
@@ -75,5 +84,11 @@ public class UIManager : MonoBehaviour
             PlayerPrefs.SetInt("UnlockedStage", currentStage + 1);
             PlayerPrefs.Save();
         }
+    }
+
+    public void GoToMainMenu()
+    {
+        Time.timeScale = 1f;
+        SceneManager.LoadScene("Start");
     }
 }

@@ -29,4 +29,10 @@ public class StageButton : MonoBehaviour
             Debug.Log("아직 클리어하지 않은 스테이지입니다.");
         }
     }
+
+    public void GoToMainMenu()
+    {
+        Time.timeScale = 1f;
+        SceneManager.LoadScene("Start");
+    }
 }
