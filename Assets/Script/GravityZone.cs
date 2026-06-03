@@ -31,7 +31,7 @@ public class GravityZone : MonoBehaviour
     {
         cooldownPlayers.Add(pc);
 
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(2f);
 
         cooldownPlayers.Remove(pc);
     }

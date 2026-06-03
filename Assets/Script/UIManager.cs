@@ -38,13 +38,10 @@ public class UIManager : MonoBehaviour
     }
 
     // 다음 스테이지 이동
-    public void NextStage()
+    public void GoToStageSelect()
     {
         Time.timeScale = 1f;
-
-        SceneManager.LoadScene(
-            SceneManager.GetActiveScene().buildIndex + 1
-        );
+        SceneManager.LoadScene("StageSelect");
     }
 
     // 다시 시작
@@ -60,8 +57,23 @@ public class UIManager : MonoBehaviour
     // 클리어 메뉴 열기
     public void OpenClearMenu()
     {
+        SaveStageClear();
+
         clearPanel.SetActive(true);
 
         Time.timeScale = 0f;
+    }
+
+    public void SaveStageClear()
+    {
+        int currentStage = SceneManager.GetActiveScene().buildIndex;
+
+        int unlockedStage = PlayerPrefs.GetInt("UnlockedStage", 1);
+
+        if (currentStage + 1 > unlockedStage)
+        {
+            PlayerPrefs.SetInt("UnlockedStage", currentStage + 1);
+            PlayerPrefs.Save();
+        }
     }
 }
