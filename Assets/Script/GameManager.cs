@@ -85,7 +85,11 @@ public class GameManager : MonoBehaviour
         {
             Debug.Log("스테이지 클리어!");
 
-            // 클리어 UI 열기
+            if (AudioManager.Instance != null)
+            {
+                AudioManager.Instance.StopBGM();
+            }
+
             uiManager.OpenClearMenu();
         }
     }

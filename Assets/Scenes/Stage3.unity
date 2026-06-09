@@ -7024,6 +7024,7 @@ MonoBehaviour:
   - {fileID: 1318651793}
   - {fileID: 791757525}
   uiManager: {fileID: 887699928}
+  movingPlatforms: []
 --- !u!4 &1315884886
 Transform:
   m_ObjectHideFlags: 0
@@ -9208,7 +9209,7 @@ SpriteRenderer:
   m_SortingOrder: 3
   m_MaskInteraction: 0
   m_Sprite: {fileID: 21300000, guid: 94063952eb6464049bffceae643476eb, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.2509804, g: 0.7411765, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -9884,7 +9885,7 @@ SpriteRenderer:
   m_SortingOrder: 3
   m_MaskInteraction: 0
   m_Sprite: {fileID: 21300000, guid: 94063952eb6464049bffceae643476eb, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.2509804, g: 0.7411765, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
