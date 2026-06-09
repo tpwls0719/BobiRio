@@ -14,41 +14,54 @@ public class MovingPlatform : MonoBehaviour
 
     private Transform playerOnPlatform;
 
+    private Vector3 startPosition;
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
 
-        // 충돌 정확도 향상
+        startPosition = transform.position;
+
         rb.collisionDetectionMode = CollisionDetectionMode2D.Continuous;
     }
-
-    void FixedUpdate()
-    {
-        if (!isMoving || isStopped)
-            return;
-
-        // 이전 위치 저장
-        lastPosition = rb.position;
-
-        Vector2 direction = moveRight ? Vector2.right : Vector2.left;
-        Vector2 move = direction * moveSpeed * Time.fixedDeltaTime;
-
-        rb.MovePosition(rb.position + move);
-
-        // 플레이어도 같이 이동
-        if (playerOnPlatform != null)
-        {
-            playerOnPlatform.position += (Vector3)move;
-        }
-    }
-
-    private void OnTriggerEnter2D(Collider2D other)
+void FixedUpdate()
 {
-    if (other.CompareTag("Wall"))
+    if (!isMoving || isStopped)
+        return;
+
+    lastPosition = rb.position;
+
+    Vector2 direction = moveRight ? Vector2.right : Vector2.left;
+    Vector2 move = direction * moveSpeed * Time.fixedDeltaTime;
+
+    rb.MovePosition(rb.position + move);
+
+    if (playerOnPlatform != null)
     {
-        Destroy(gameObject);
+        playerOnPlatform.position += (Vector3)move;
     }
 }
+    public void ResetPlatform()
+{
+    gameObject.SetActive(true);
+
+    rb.position = startPosition;
+
+    rb.linearVelocity = Vector2.zero;
+
+    isMoving = false;
+    isStopped = false;
+
+    playerOnPlatform = null;
+}
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.CompareTag("Wall"))
+        {
+            gameObject.SetActive(false);
+        }
+    }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {

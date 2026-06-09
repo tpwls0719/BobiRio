@@ -39,10 +39,20 @@ public class UIManager : MonoBehaviour
 
     // 다음 스테이지 이동
     public void GoToStageSelect()
+{
+    Time.timeScale = 1f;
+
+    int currentStage = SceneManager.GetActiveScene().buildIndex;
+
+    if (currentStage == 6) // Stage5
     {
-        Time.timeScale = 1f;
+        SceneManager.LoadScene("GameClear");
+    }
+    else
+    {
         SceneManager.LoadScene("StageSelect");
     }
+}
 
     // 다시 시작
     public void RestartGame()
@@ -56,22 +66,12 @@ public class UIManager : MonoBehaviour
 
     // 클리어 메뉴 열기
     public void OpenClearMenu()
-    {
-        SaveStageClear();
+{
+    SaveStageClear();
 
-        int currentStage = SceneManager.GetActiveScene().buildIndex;
-
-        // Stage5 (인덱스 6) 클리어
-        if (currentStage == 6)
-        {
-            Time.timeScale = 1f;
-            SceneManager.LoadScene("GameClear");
-            return;
-        }
-
-        clearPanel.SetActive(true);
-        Time.timeScale = 0f;
-    }
+    clearPanel.SetActive(true);
+    Time.timeScale = 0f;
+}
 
     public void SaveStageClear()
     {

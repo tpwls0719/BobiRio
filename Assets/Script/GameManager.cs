@@ -24,6 +24,9 @@ public class GameManager : MonoBehaviour
     private bool p1Goal = false;
     private bool p2Goal = false;
 
+    [Header("이동 플랫폼")]
+    public MovingPlatform[] movingPlatforms;
+
     void Start()
 {
     p1StartPos = player1.position;
@@ -115,5 +118,11 @@ public class GameManager : MonoBehaviour
         p2Goal = false;
 
         Debug.Log("리스폰 완료");
+
+        foreach (MovingPlatform platform in movingPlatforms)
+{
+    platform.ResetPlatform();
+}
     }
+    
 }
