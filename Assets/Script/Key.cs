@@ -17,9 +17,13 @@ public class Key : MonoBehaviour
         // 획득 가능
         if (canGet)
         {
+            if (AudioManager.Instance != null)
+            {
+                AudioManager.Instance.PlayKey();
+            }
+
             FindObjectOfType<GameManager>().GetKey(playerTag);
 
-            // 삭제 대신 비활성화
             gameObject.SetActive(false);
         }
         else

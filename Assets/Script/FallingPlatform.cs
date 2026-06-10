@@ -47,17 +47,15 @@ public class FallingPlatform : MonoBehaviour
     {
         yield return new WaitForSeconds(fallDelay);
 
-        // 발판 활성화
+        AudioManager.Instance.PlayFallingPlatform();
+
         rb.bodyType = RigidbodyType2D.Dynamic;
 
-        // 🔥 플레이어 중력 방향 따라 변경
         rb.gravityScale = player.IsGravityDown() ? 1f : -1f;
 
-        // 기존 속도 제거
         rb.linearVelocity = Vector2.zero;
         rb.angularVelocity = 0f;
 
-        // 다시 리셋 예약
         resetCoroutine = StartCoroutine(ResetPlatform());
     }
 

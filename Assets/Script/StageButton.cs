@@ -6,13 +6,13 @@ public class StageButton : MonoBehaviour
     public int stageIndex;
 
     void Start()
-{
-    if (!PlayerPrefs.HasKey("UnlockedStage"))
     {
-        PlayerPrefs.SetInt("UnlockedStage", 2);
-        PlayerPrefs.Save();
+        if (!PlayerPrefs.HasKey("UnlockedStage"))
+        {
+            PlayerPrefs.SetInt("UnlockedStage", 2);
+            PlayerPrefs.Save();
+        }
     }
-}
 
     public void LoadStage()
     {
@@ -21,6 +21,11 @@ public class StageButton : MonoBehaviour
 
         if (stageIndex <= unlockedStage)
         {
+            if (AudioManager.Instance != null)
+            {
+                AudioManager.Instance.PlayButtonClick();
+            }
+
             Time.timeScale = 1f;
             SceneManager.LoadScene(stageIndex);
         }
@@ -32,6 +37,11 @@ public class StageButton : MonoBehaviour
 
     public void GoToMainMenu()
     {
+        if (AudioManager.Instance != null)
+        {
+            AudioManager.Instance.PlayButtonClick();
+        }
+
         Time.timeScale = 1f;
         SceneManager.LoadScene("Start");
     }

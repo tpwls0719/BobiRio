@@ -83,12 +83,12 @@ public class GameManager : MonoBehaviour
         // 두 플레이어 모두 골 도착
         if (p1Goal && p2Goal)
         {
-            Debug.Log("스테이지 클리어!");
-
             if (AudioManager.Instance != null)
             {
-                AudioManager.Instance.StopBGM();
+                AudioManager.Instance.PlayGoal();
             }
+
+            Debug.Log("스테이지 클리어!");
 
             uiManager.OpenClearMenu();
         }

@@ -8,7 +8,15 @@ public class AudioManager : MonoBehaviour
     public AudioSource bgmSource;
     public AudioSource sfxSource;
 
-    private AudioClip currentBGM;
+    [Header("BGM")]
+    public AudioClip bgmClip;
+
+    [Header("SFX")]
+    public AudioClip buttonClickSound;
+    public AudioClip keySound;
+    public AudioClip movingPlatformSound;
+    public AudioClip fallingPlatformSound;
+    public AudioClip goalSound;
 
     private void Awake()
     {
@@ -20,57 +28,66 @@ public class AudioManager : MonoBehaviour
         else
         {
             Destroy(gameObject);
+            return;
         }
     }
 
-    // =========================
-    // BGM
-    // =========================
-
-    public void PlayBGM(AudioClip clip)
+    private void Start()
     {
-        if (clip == null)
+        PlayBGM();
+    }
+
+    // BGM
+
+    public void PlayBGM()
+    {
+        if (bgmClip == null)
             return;
 
-        if (currentBGM == clip)
-            return;
-
-        currentBGM = clip;
-
-        bgmSource.clip = clip;
+        bgmSource.clip = bgmClip;
         bgmSource.loop = true;
+        bgmSource.Play();
+    }
+
+    public void RestartBGM()
+    {
+        bgmSource.Stop();
+        bgmSource.clip = bgmClip;
         bgmSource.Play();
     }
 
     public void StopBGM()
     {
-        bgmSource.Stop();
-        currentBGM = null;
+        if (bgmSource != null)
+        {
+            bgmSource.Stop();
+        }
     }
 
-    // =========================
     // SFX
-    // =========================
 
-    public void PlaySFX(AudioClip clip)
+    public void PlayButtonClick()
     {
-        if (clip == null)
-            return;
-
-        sfxSource.PlayOneShot(clip);
+        sfxSource.PlayOneShot(buttonClickSound);
     }
 
-    // =========================
-    // Volume
-    // =========================
-
-    public void SetBGMVolume(float volume)
+    public void PlayKey()
     {
-        bgmSource.volume = volume;
+        sfxSource.PlayOneShot(keySound);
     }
 
-    public void SetSFXVolume(float volume)
+    public void PlayMovingPlatform()
     {
-        sfxSource.volume = volume;
+        sfxSource.PlayOneShot(movingPlatformSound);
+    }
+
+    public void PlayFallingPlatform()
+    {
+        sfxSource.PlayOneShot(fallingPlatformSound);
+    }
+
+    public void PlayGoal()
+    {
+        sfxSource.PlayOneShot(goalSound);
     }
 }

@@ -58,9 +58,10 @@ public class FallingDisappearPlatform : MonoBehaviour
 
         yield return new WaitForSeconds(fallDelay);
 
+        AudioManager.Instance.PlayFallingPlatform();
+
         rb.bodyType = RigidbodyType2D.Dynamic;
 
-        // 플레이어 중력 방향 적용
         rb.gravityScale = player.IsGravityDown() ? 1f : -1f;
     }
 

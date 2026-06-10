@@ -7,56 +7,53 @@ public class UIManager : MonoBehaviour
     public GameObject pausePanel;
     public GameObject clearPanel;
 
-    // Animator 사용 안 함
-    // private Animator pauseAnimator;
-
     void Start()
     {
-        // pauseAnimator = pausePanel.GetComponent<Animator>();
-
-        // 씬 시작 시 게임 정상 속도
         Time.timeScale = 1f;
     }
 
     // 일시정지 메뉴 열기
     public void OpenPauseMenu()
     {
+        AudioManager.Instance.PlayButtonClick();
+
         pausePanel.SetActive(true);
-
-        // 애니메이션 제거
-        // pauseAnimator.SetTrigger("Open");
-
         Time.timeScale = 0f;
     }
 
     // 일시정지 메뉴 닫기
     public void ClosePauseMenu()
     {
-        pausePanel.SetActive(false);
+        AudioManager.Instance.PlayButtonClick();
 
+        pausePanel.SetActive(false);
         Time.timeScale = 1f;
     }
 
     // 다음 스테이지 이동
     public void GoToStageSelect()
-{
-    Time.timeScale = 1f;
-
-    int currentStage = SceneManager.GetActiveScene().buildIndex;
-
-    if (currentStage == 6) // Stage5
     {
-        SceneManager.LoadScene("GameClear");
+        AudioManager.Instance.PlayButtonClick();
+
+        Time.timeScale = 1f;
+
+        int currentStage = SceneManager.GetActiveScene().buildIndex;
+
+        if (currentStage == 6) // Stage5
+        {
+            SceneManager.LoadScene("GameClear");
+        }
+        else
+        {
+            SceneManager.LoadScene("StageSelect");
+        }
     }
-    else
-    {
-        SceneManager.LoadScene("StageSelect");
-    }
-}
 
     // 다시 시작
     public void RestartGame()
     {
+        AudioManager.Instance.PlayButtonClick();
+
         Time.timeScale = 1f;
 
         SceneManager.LoadScene(
@@ -66,12 +63,12 @@ public class UIManager : MonoBehaviour
 
     // 클리어 메뉴 열기
     public void OpenClearMenu()
-{
-    SaveStageClear();
+    {
+        SaveStageClear();
 
-    clearPanel.SetActive(true);
-    Time.timeScale = 0f;
-}
+        clearPanel.SetActive(true);
+        Time.timeScale = 0f;
+    }
 
     public void SaveStageClear()
     {
@@ -88,6 +85,8 @@ public class UIManager : MonoBehaviour
 
     public void GoToMainMenu()
     {
+        AudioManager.Instance.PlayButtonClick();
+
         Time.timeScale = 1f;
         SceneManager.LoadScene("Start");
     }
