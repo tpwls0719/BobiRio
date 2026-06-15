@@ -65,10 +65,14 @@ void FixedUpdate()
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        // 플레이어가 밟으면 이동 시작
         if (collision.gameObject.CompareTag("Bobi") ||
             collision.gameObject.CompareTag("Rio"))
         {
+            if (!isMoving)
+            {
+                AudioManager.Instance.PlayMovingPlatform();
+            }
+
             isMoving = true;
             playerOnPlatform = collision.transform;
         }

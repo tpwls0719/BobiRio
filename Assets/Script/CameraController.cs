@@ -115,15 +115,15 @@ public class CameraController : MonoBehaviour
 
     // 🔥 핵심: 캐릭터 "크기" 포함
     Bounds GetPlayersBounds()
-    {
-        Renderer r1 = player1.GetComponent<Renderer>();
-        Renderer r2 = player2.GetComponent<Renderer>();
+{
+    Collider2D c1 = player1.GetComponent<Collider2D>();
+    Collider2D c2 = player2.GetComponent<Collider2D>();
 
-        Bounds bounds = r1.bounds;
-        bounds.Encapsulate(r2.bounds);
+    Bounds bounds = c1.bounds;
+    bounds.Encapsulate(c2.bounds);
 
-        return bounds;
-    }
+    return bounds;
+}
 
     float GetRequiredZoom()
     {

@@ -16,12 +16,16 @@ public class PlayerController : MonoBehaviour
     // 🔥 중력 상태 (true = 아래, false = 위)
     private bool gravityDown = true;
 
+    private Animator anim;
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
 
         // 👉 기본 중력 끄기 (필수)
         rb.gravityScale = 0f;
+
+        anim = GetComponent<Animator>();
 
         if (CompareTag("Bobi"))
         {
@@ -66,6 +70,16 @@ public class PlayerController : MonoBehaviour
         }
 
         rb.linearVelocity = new Vector2(moveInput * moveSpeed, rb.linearVelocity.y);
+
+        float animMoveX = moveInput;
+
+        // 중력 반전 상태면 애니메이션 방향만 반대로
+        if (!gravityDown)
+        {
+            animMoveX = -animMoveX;
+        }
+
+        anim.SetFloat("MoveX", animMoveX);
     }
 
     void Jump()
