@@ -7,6 +7,10 @@ public class FallingPlatform : MonoBehaviour
     public float fallDelay = 0.2f;
     public float resetTime = 3f;
 
+    [Header("Shake")]
+    public float shakeAmount = 0.05f; // 흔들리는 거리
+    public float shakeSpeed = 25f;    // 흔들리는 속도
+
     private Vector3 startPos;
     private Quaternion startRot;
 
@@ -45,7 +49,21 @@ public class FallingPlatform : MonoBehaviour
 
     IEnumerator Fall(PlayerController player)
     {
-        yield return new WaitForSeconds(fallDelay);
+        Vector3 originalPos = transform.position;
+
+        float timer = 0f;
+
+        while (timer < fallDelay)
+        {
+            timer += Time.deltaTime;
+
+            float offset = Mathf.Sin(timer * shakeSpeed) * shakeAmount;
+            transform.position = originalPos + Vector3.right * offset;
+
+            yield return null;
+        }
+
+        transform.position = originalPos;
 
         AudioManager.Instance.PlayFallingPlatform();
 

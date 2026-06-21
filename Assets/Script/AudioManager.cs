@@ -18,6 +18,10 @@ public class AudioManager : MonoBehaviour
     public AudioClip fallingPlatformSound;
     public AudioClip goalSound;
 
+    public AudioClip leverSound;
+
+    public AudioClip buttonSound;
+
     private void Awake()
     {
         if (Instance == null)
@@ -69,6 +73,16 @@ public class AudioManager : MonoBehaviour
     public void PlayButtonClick()
     {
         sfxSource.PlayOneShot(buttonClickSound);
+    }
+
+    public void LeverSound()
+    {
+        sfxSource.PlayOneShot(leverSound);
+    }
+
+    public void ButtonSound()
+    {
+        sfxSource.PlayOneShot(buttonSound);
     }
 
     public void PlayKey()
