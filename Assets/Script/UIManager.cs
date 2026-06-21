@@ -1,11 +1,16 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class UIManager : MonoBehaviour
 {
     [Header("패널")]
     public GameObject pausePanel;
     public GameObject clearPanel;
+
+    [Header("클리어 시간")]
+public TMP_Text clearTimeText;
+    
 
     void Start()
     {
@@ -62,13 +67,27 @@ public class UIManager : MonoBehaviour
     }
 
     // 클리어 메뉴 열기
-    public void OpenClearMenu()
-    {
-        SaveStageClear();
+public void OpenClearMenu()
+{
+    SaveStageClear();
 
-        clearPanel.SetActive(true);
-        Time.timeScale = 0f;
+    GameManager gm = FindObjectOfType<GameManager>();
+
+    if (gm != null && clearTimeText != null)
+    {
+        float time = gm.GetStageTime();
+
+        int min = Mathf.FloorToInt(time / 60);
+        int sec = Mathf.FloorToInt(time % 60);
+
+        clearTimeText.text =
+            $"클리어 시간 : {min:00}:{sec:00}";
     }
+
+    clearPanel.SetActive(true);
+
+    Time.timeScale = 0f;
+}
 
     public void SaveStageClear()
     {

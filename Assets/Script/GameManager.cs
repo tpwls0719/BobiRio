@@ -1,4 +1,6 @@
 using UnityEngine;
+using TMPro;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -27,6 +29,12 @@ public class GameManager : MonoBehaviour
     [Header("이동 플랫폼")]
     public MovingPlatform[] movingPlatforms;
 
+    [Header("타이머")]
+public TMP_Text timerText;
+
+private float stageTime = 0f;
+private bool isStageClear = false;
+
     void Start()
 {
     p1StartPos = player1.position;
@@ -34,6 +42,28 @@ public class GameManager : MonoBehaviour
 
     // 열쇠 개수 자동 설정
     totalKeys = keys.Length;
+}
+
+void Update()
+{
+    if (!isStageClear)
+    {
+        stageTime += Time.deltaTime;
+
+        if (timerText != null)
+        {
+            int hour = Mathf.FloorToInt(stageTime / 3600);
+int min = Mathf.FloorToInt((stageTime % 3600) / 60);
+int sec = Mathf.FloorToInt(stageTime % 60);
+
+timerText.text = $"{hour:00}:{min:00}:{sec:00}";
+        }
+    }
+}
+
+public float GetStageTime()
+{
+    return stageTime;
 }
 
     // 열쇠 획득
@@ -82,16 +112,42 @@ public class GameManager : MonoBehaviour
 
         // 두 플레이어 모두 골 도착
         if (p1Goal && p2Goal)
-        {
-            if (AudioManager.Instance != null)
-            {
-                AudioManager.Instance.PlayGoal();
-            }
+{
+    isStageClear = true;
 
-            Debug.Log("스테이지 클리어!");
+    int currentStage =
+        SceneManager.GetActiveScene().buildIndex;
 
-            uiManager.OpenClearMenu();
-        }
+    float bestTime = PlayerPrefs.GetFloat(
+    "StageTime_" + currentStage,
+    float.MaxValue
+);
+
+if (stageTime < bestTime)
+{
+    PlayerPrefs.SetFloat(
+        "StageTime_" + currentStage,
+        stageTime
+    );
+
+    PlayerPrefs.Save();
+
+    Debug.Log("최고 기록 갱신!");
+}
+else
+{
+    Debug.Log("기존 기록이 더 좋음");
+}
+
+    if (AudioManager.Instance != null)
+    {
+        AudioManager.Instance.PlayGoal();
+    }
+
+    Debug.Log("스테이지 클리어!");
+
+    uiManager.OpenClearMenu();
+}
     }
 
     // 리스폰
