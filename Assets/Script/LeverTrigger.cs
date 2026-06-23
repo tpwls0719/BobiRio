@@ -40,7 +40,7 @@ public class LeverTrigger : MonoBehaviour
         }
 
         if (AudioManager.Instance != null)
-            AudioManager.Instance.PlayButtonClick();
+            AudioManager.Instance.LeverSound();
     }
 
     private bool CanUse(string tag)

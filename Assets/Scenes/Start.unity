@@ -1472,6 +1472,8 @@ MonoBehaviour:
   movingPlatformSound: {fileID: 8300000, guid: ff5f85da24bc943d1abdc5760a22bc81, type: 3}
   fallingPlatformSound: {fileID: 8300000, guid: 7bef0064f8567430cac22499c6b93d4f, type: 3}
   goalSound: {fileID: 8300000, guid: 7478151cf36724a7dada558f746c3633, type: 3}
+  leverSound: {fileID: 8300000, guid: d46323e22e74e46baa241cbf48c85671, type: 3}
+  buttonSound: {fileID: 8300000, guid: 2c5292ba5cf254919a6b9e2b18e04f49, type: 3}
 --- !u!4 &1971116132
 Transform:
   m_ObjectHideFlags: 0

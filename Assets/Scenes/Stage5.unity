@@ -12980,7 +12980,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 693878865}
         m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
         m_MethodName: GoToStageSelect
         m_Mode: 1
@@ -14839,7 +14839,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 693878865}
         m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
         m_MethodName: RestartGame
         m_Mode: 1
@@ -16725,9 +16725,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ButtonTrigger
   buttonUser: 0
-  buttonAnimator: {fileID: 0}
+  buttonAnimator: {fileID: 1384487210}
   pathAnimator: {fileID: 0}
-  targetPlatforms: []
+  targetPlatforms:
+  - {fileID: 1734125626}
 --- !u!61 &1384487207
 BoxCollider2D:
   m_ObjectHideFlags: 0

@@ -39,7 +39,7 @@ public class ButtonTrigger : MonoBehaviour
         }
 
         if (AudioManager.Instance != null)
-            AudioManager.Instance.PlayButtonClick();
+            AudioManager.Instance.ButtonSound();
     }
 
     private void OnTriggerExit2D(Collider2D collision)
